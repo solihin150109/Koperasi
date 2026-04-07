@@ -124,7 +124,7 @@ const LoginPage: React.FC = () => {
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>
-                  MASUK KE SISTEM
+                  LOGIN
                   <ArrowRight size={20} />
                 </>
               )}

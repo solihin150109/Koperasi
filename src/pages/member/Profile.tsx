@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { User, Mail, Phone, MapPin, Briefcase, Shield, Camera, Save, Lock, Smartphone, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { User, Mail, Phone, MapPin, Briefcase, Shield, Camera, Save, Lock, Smartphone, ArrowRight, X, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -55,6 +57,75 @@ const Profile: React.FC = () => {
         )}
       </div>
 
+      {/* Change Password Modal */}
+      <AnimatePresence>
+        {showPasswordModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowPasswordModal(false)}
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-md bg-white dark:bg-neutral-800 rounded-[2.5rem] shadow-2xl overflow-hidden"
+            >
+              <div className="p-6 border-b border-gray-100 dark:border-neutral-700 flex items-center justify-between bg-imigrasi-primary text-white">
+                <h3 className="font-bold text-xl">Ganti Password</h3>
+                <button onClick={() => setShowPasswordModal(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-8 space-y-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Password Lama</label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      className="w-full pl-12 pr-12 py-4 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Password Baru</label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      className="w-full pl-12 pr-12 py-4 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white"
+                    />
+                    <button 
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-imigrasi-primary transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Konfirmasi Password Baru</label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      className="w-full pl-12 pr-12 py-4 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white"
+                    />
+                  </div>
+                </div>
+                <button className="w-full py-4 bg-imigrasi-primary text-white font-bold rounded-2xl hover:bg-blue-900 transition-all shadow-lg shadow-imigrasi-primary/20">
+                  Perbarui Password
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Profile Card */}
         <div className="space-y-8">
@@ -84,7 +155,10 @@ const Profile: React.FC = () => {
 
           <div className="glass-card p-6 rounded-3xl space-y-4">
             <h3 className="font-bold text-gray-900 dark:text-white">Keamanan Akun</h3>
-            <button className="w-full flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-neutral-700/30 hover:bg-gray-100 transition-all group">
+            <button 
+              onClick={() => setShowPasswordModal(true)}
+              className="w-full flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-neutral-700/30 hover:bg-gray-100 transition-all group"
+            >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 text-blue-600 rounded-lg group-hover:scale-110 transition-transform"><Lock size={18} /></div>
                 <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Ganti Password</span>

@@ -20,6 +20,7 @@ const Approvals = lazy(() => import('./pages/admin/Approvals'));
 const AdminDocuments = lazy(() => import('./pages/admin/Documents'));
 const Reports = lazy(() => import('./pages/admin/Reports'));
 const Settings = lazy(() => import('./pages/admin/Settings'));
+const AuditLog = lazy(() => import('./pages/admin/AuditLog'));
 
 // Loading component
 const PageLoader = () => (
@@ -87,6 +88,7 @@ const AppContent: React.FC = () => {
           <Route path="documents" element={<AdminDocuments />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="audit-log" element={<AuditLog />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Route>
 

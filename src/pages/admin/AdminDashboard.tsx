@@ -16,7 +16,7 @@ import {
   Search,
   Filter
 } from 'lucide-react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { 
   BarChart, 
@@ -35,6 +35,7 @@ import {
 
 const AdminDashboard: React.FC = () => {
   const [viewType, setViewType] = useState<'monthly' | 'annual'>('monthly');
+  const navigate = useNavigate();
 
   const stats = viewType === 'monthly' ? [
     { label: 'Total Anggota', value: '245', icon: Users, color: 'bg-blue-500', trend: '+12' },
@@ -254,7 +255,10 @@ const AdminDashboard: React.FC = () => {
         <div className="space-y-6">
           <h3 className="font-bold text-lg text-gray-900 dark:text-white">Pintasan Admin</h3>
           <div className="grid grid-cols-1 gap-4">
-            <button className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:border-imigrasi-accent transition-all group">
+            <button 
+              onClick={() => navigate('/admin/approvals')}
+              className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:border-imigrasi-accent transition-all group"
+            >
               <div className="p-3 bg-blue-100 text-blue-600 rounded-xl group-hover:scale-110 transition-transform">
                 <ShieldCheck size={20} />
               </div>
@@ -263,7 +267,10 @@ const AdminDashboard: React.FC = () => {
                 <p className="text-[10px] text-gray-500">12 antrean menunggu</p>
               </div>
             </button>
-            <button className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:border-imigrasi-accent transition-all group">
+            <button 
+              onClick={() => navigate('/admin/reports')}
+              className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:border-imigrasi-accent transition-all group"
+            >
               <div className="p-3 bg-emerald-100 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
                 <FileText size={20} />
               </div>
@@ -272,7 +279,10 @@ const AdminDashboard: React.FC = () => {
                 <p className="text-[10px] text-gray-500">Generate laporan Maret</p>
               </div>
             </button>
-            <button className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:border-imigrasi-accent transition-all group">
+            <button 
+              onClick={() => navigate('/admin/audit-log')}
+              className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:border-imigrasi-accent transition-all group"
+            >
               <div className="p-3 bg-amber-100 text-amber-600 rounded-xl group-hover:scale-110 transition-transform">
                 <Activity size={20} />
               </div>

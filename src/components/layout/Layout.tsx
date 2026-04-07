@@ -29,6 +29,7 @@ const Layout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,8 +53,7 @@ const Layout: React.FC = () => {
   }, [user, addNotification]);
 
   const memberNavItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/member' },
-    { icon: UserIcon, label: 'Profil Saya', path: '/member/profile' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/member', end: true },
     { icon: Wallet, label: 'Simpanan', path: '/member/savings' },
     { icon: HandCoins, label: 'Pinjaman', path: '/member/loans' },
     { icon: History, label: 'Riwayat', path: '/member/history' },
@@ -61,7 +61,7 @@ const Layout: React.FC = () => {
   ];
 
   const adminNavItems = [
-    { icon: PieChart, label: 'Executive Dashboard', path: '/admin' },
+    { icon: PieChart, label: 'Executive Dashboard', path: '/admin', end: true },
     { icon: Users, label: 'Manajemen Anggota', path: '/admin/members' },
     { icon: Wallet, label: 'Keuangan', path: '/admin/finance' },
     { icon: ShieldCheck, label: 'Persetujuan', path: '/admin/approvals' },
@@ -112,6 +112,7 @@ const Layout: React.FC = () => {
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.end}
               className={({ isActive }) => cn(
                 "w-full flex items-center gap-4 p-3 rounded-xl transition-all duration-200 group",
                 isActive 
@@ -124,16 +125,6 @@ const Layout: React.FC = () => {
             </NavLink>
           ))}
         </nav>
-
-        <div className="p-4 border-t border-white/10">
-          <button 
-            onClick={logout}
-            className="w-full flex items-center gap-4 p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all group"
-          >
-            <LogOut size={22} className="shrink-0" />
-            {isSidebarOpen && <span className="font-medium">Keluar</span>}
-          </button>
-        </div>
       </motion.aside>
 
       {/* Mobile Menu Overlay */}
@@ -175,6 +166,7 @@ const Layout: React.FC = () => {
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.end}
               className={({ isActive }) => cn(
                 "w-full flex items-center gap-4 p-4 rounded-xl transition-all",
                 isActive 
@@ -188,12 +180,6 @@ const Layout: React.FC = () => {
             </NavLink>
           ))}
         </nav>
-        <div className="p-4 border-t border-white/10">
-          <button onClick={logout} className="w-full flex items-center gap-4 p-4 rounded-xl text-red-400 hover:bg-red-500/10">
-            <LogOut size={22} />
-            <span className="font-medium">Keluar</span>
-          </button>
-        </div>
       </motion.aside>
 
       {/* Main Content */}
@@ -217,10 +203,10 @@ const Layout: React.FC = () => {
             <button 
               onClick={toggleDarkMode}
               className="p-2.5 rounded-full bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 transition-colors"
+              title={isDarkMode ? 'Mode Terang' : 'Mode Gelap'}
             >
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            
             <div className="relative">
               <button 
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
@@ -287,7 +273,10 @@ const Layout: React.FC = () => {
                           ))
                         )}
                       </div>
-                      <button className="w-full p-3 text-xs font-bold text-gray-500 hover:text-imigrasi-primary dark:hover:text-imigrasi-accent transition-colors border-t border-gray-100 dark:border-neutral-700">
+                      <button 
+                        onClick={() => setIsNotificationOpen(false)}
+                        className="w-full p-3 text-xs font-bold text-gray-500 hover:text-imigrasi-primary dark:hover:text-imigrasi-accent transition-colors border-t border-gray-100 dark:border-neutral-700"
+                      >
                         Lihat Semua Notifikasi
                       </button>
                     </motion.div>
@@ -295,16 +284,67 @@ const Layout: React.FC = () => {
                 )}
               </AnimatePresence>
             </div>
-            <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-neutral-700">
-              <img 
-                src={user?.avatar} 
-                alt={user?.name} 
-                className="w-10 h-10 rounded-full border-2 border-imigrasi-accent shadow-sm"
-              />
-              <div className="hidden sm:block">
-                <p className="text-sm font-bold text-gray-900 dark:text-white leading-none">{user?.name}</p>
-                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 font-mono">{user?.nip}</p>
-              </div>
+            <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-neutral-700 relative">
+              <button 
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-neutral-700/50 p-1 rounded-xl transition-colors"
+              >
+                <img 
+                  src={user?.avatar} 
+                  alt={user?.name} 
+                  className="w-10 h-10 rounded-full border-2 border-imigrasi-accent shadow-sm"
+                />
+                <div className="hidden sm:block text-left">
+                  <p className="text-sm font-bold text-gray-900 dark:text-white leading-none">{user?.name}</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 font-mono">{user?.nip}</p>
+                </div>
+              </button>
+
+              <AnimatePresence>
+                {isProfileOpen && (
+                  <>
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 z-40"
+                      onClick={() => setIsProfileOpen(false)}
+                    />
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-neutral-700 z-50 overflow-hidden"
+                    >
+                      <div className="p-4 border-b border-gray-100 dark:border-neutral-700 bg-gray-50/50 dark:bg-neutral-700/30">
+                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Akun Saya</p>
+                      </div>
+                      <div className="p-2 space-y-1">
+                        {user?.role === 'member' && (
+                          <button 
+                            onClick={() => {
+                              navigate('/member/profile');
+                              setIsProfileOpen(false);
+                            }}
+                            className="w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
+                          >
+                            <UserIcon size={18} />
+                            Profil Saya
+                          </button>
+                        )}
+                        <div className="h-px bg-gray-100 dark:bg-neutral-700 my-1" />
+                        <button 
+                          onClick={logout}
+                          className="w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+                        >
+                          <LogOut size={18} />
+                          Logout
+                        </button>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </header>

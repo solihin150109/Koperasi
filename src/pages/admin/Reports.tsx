@@ -7,6 +7,7 @@ import { cn } from '../../lib/utils';
 const ReportsPage: React.FC = () => {
   const { addNotification } = useNotifications();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [reportFilter, setReportFilter] = useState('Semua');
   
   const reports = [
     { id: 'REP-001', title: 'Laporan Laba Rugi Semester I 2025', type: 'Keuangan', date: '2025-07-15', status: 'Final' },
@@ -37,6 +38,10 @@ const ReportsPage: React.FC = () => {
       });
     }, 2000);
   };
+
+  const filteredReports = reports.filter(r => 
+    reportFilter === 'Semua' || r.type === reportFilter
+  );
 
   return (
     <motion.div 
@@ -106,13 +111,24 @@ const ReportsPage: React.FC = () => {
           <div className="p-6 border-b border-gray-100 dark:border-neutral-700 flex items-center justify-between">
             <h3 className="font-bold text-lg text-gray-900 dark:text-white">Arsip Laporan</h3>
             <div className="flex items-center gap-2">
-              <button className="p-2 bg-gray-100 dark:bg-neutral-700 rounded-xl text-gray-500">
-                <Filter size={18} />
-              </button>
+              <div className="relative">
+                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                <select 
+                  value={reportFilter}
+                  onChange={(e) => setReportFilter(e.target.value)}
+                  className="pl-9 pr-8 py-2 bg-gray-100 dark:bg-neutral-700 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 outline-none appearance-none border-none"
+                >
+                  <option value="Semua">Semua Tipe</option>
+                  <option value="Keuangan">Keuangan</option>
+                  <option value="Operasional">Operasional</option>
+                  <option value="Piutang">Piutang</option>
+                  <option value="Simpanan">Simpanan</option>
+                </select>
+              </div>
             </div>
           </div>
           <div className="divide-y divide-gray-100 dark:divide-neutral-700">
-            {reports.map((report) => (
+            {filteredReports.map((report) => (
               <div key={report.id} className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-imigrasi-primary/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-imigrasi-primary dark:text-white">

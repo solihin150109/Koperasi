@@ -9,6 +9,8 @@ const HistoryPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>(DUMMY_TRANSACTIONS);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterType, setFilterType] = useState('Semua');
+  const [filterDate, setFilterDate] = useState('');
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -28,11 +30,16 @@ const HistoryPage: React.FC = () => {
     }
   };
 
-  const filteredTransactions = transactions.filter(t => 
-    t.type.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    t.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    t.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTransactions = transactions.filter(t => {
+    const matchesSearch = t.type.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      t.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t.id.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesType = filterType === 'Semua' || t.type === filterType;
+    const matchesDate = !filterDate || t.date.includes(filterDate);
+
+    return matchesSearch && matchesType && matchesDate;
+  });
 
   return (
     <motion.div 
@@ -72,14 +79,28 @@ const HistoryPage: React.FC = () => {
           />
         </div>
         <div className="flex items-center gap-2 w-full md:w-auto">
-          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-gray-50 dark:bg-neutral-700 rounded-2xl text-sm font-bold text-gray-600 dark:text-gray-300">
-            <Calendar size={18} />
-            Pilih Tanggal
-          </button>
-          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-gray-50 dark:bg-neutral-700 rounded-2xl text-sm font-bold text-gray-600 dark:text-gray-300">
-            <Filter size={18} />
-            Filter Jenis
-          </button>
+          <div className="relative flex-1 md:flex-none">
+            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input 
+              type="date" 
+              value={filterDate}
+              onChange={(e) => setFilterDate(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white text-sm font-bold"
+            />
+          </div>
+          <div className="relative flex-1 md:flex-none">
+            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <select 
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+              className="w-full pl-12 pr-8 py-3 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white text-sm font-bold appearance-none"
+            >
+              <option value="Semua">Semua Jenis</option>
+              <option value="Simpanan">Simpanan</option>
+              <option value="Pinjaman">Pinjaman</option>
+              <option value="Penarikan">Penarikan</option>
+            </select>
+          </div>
         </div>
       </div>
 

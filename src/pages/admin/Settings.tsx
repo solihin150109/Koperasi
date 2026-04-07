@@ -216,10 +216,6 @@ const Settings: React.FC = () => {
                   <input type="number" defaultValue={50000} className="w-full p-4 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Suku Bunga Pinjaman (% Flat)</label>
-                  <input type="number" step="0.1" defaultValue={1.0} className="w-full p-4 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white" />
-                </div>
-                <div className="space-y-2">
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Maksimal Tenor (Bulan)</label>
                   <input type="number" defaultValue={24} className="w-full p-4 bg-gray-50 dark:bg-neutral-700 border-2 border-transparent focus:border-imigrasi-accent rounded-2xl outline-none transition-all dark:text-white" />
                 </div>

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HandCoins, TrendingUp, PieChart, ArrowUpRight, ArrowDownRight, Download, Info, Calendar, RefreshCw, CheckCircle2, Clock, AlertCircle, X } from 'lucide-react';
 import { DUMMY_LOANS, DUMMY_TRANSACTIONS } from '../../constants';
+import { cn } from '../../lib/utils';
 
 const Loans: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoanModal, setShowLoanModal] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
   const activeLoan = DUMMY_LOANS.find(l => l.status === 'Active');
 
   const formatCurrency = (amount: number) => {
@@ -88,6 +90,81 @@ const Loans: React.FC = () => {
         )}
       </AnimatePresence>
 
+      {/* Installment Schedule Modal */}
+      <AnimatePresence>
+        {showScheduleModal && activeLoan && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowScheduleModal(false)}
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-2xl bg-white dark:bg-neutral-800 rounded-[2.5rem] shadow-2xl overflow-hidden"
+            >
+              <div className="p-6 border-b border-gray-100 dark:border-neutral-700 flex items-center justify-between bg-imigrasi-primary text-white">
+                <h3 className="font-bold text-xl">Jadwal Angsuran</h3>
+                <button onClick={() => setShowScheduleModal(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-8 max-h-[70vh] overflow-y-auto">
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="p-4 bg-gray-50 dark:bg-neutral-700/50 rounded-2xl">
+                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">ID Pinjaman</p>
+                    <p className="font-mono font-bold text-gray-900 dark:text-white">{activeLoan.id}</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 dark:bg-neutral-700/50 rounded-2xl">
+                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Angsuran / Bln</p>
+                    <p className="font-bold text-gray-900 dark:text-white">{formatCurrency(activeLoan.amount / activeLoan.tenor)}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="grid grid-cols-4 px-4 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                    <span>Bulan Ke</span>
+                    <span>Tanggal</span>
+                    <span>Angsuran</span>
+                    <span className="text-right">Status</span>
+                  </div>
+                  {Array.from({ length: activeLoan.tenor }).map((_, i) => {
+                    const isPaid = i < activeLoan.paidInstallments;
+                    return (
+                      <div 
+                        key={i} 
+                        className={cn(
+                          "grid grid-cols-4 px-4 py-4 rounded-2xl text-sm transition-colors",
+                          isPaid ? "bg-emerald-50 dark:bg-emerald-900/10" : "bg-gray-50 dark:bg-neutral-700/30"
+                        )}
+                      >
+                        <span className="font-bold text-gray-900 dark:text-white">{i + 1}</span>
+                        <span className="text-gray-500 dark:text-gray-400">
+                          {new Date(2026, 3 + i, 15).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </span>
+                        <span className="font-bold text-gray-900 dark:text-white">{formatCurrency(activeLoan.amount / activeLoan.tenor)}</span>
+                        <div className="text-right">
+                          <span className={cn(
+                            "px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider",
+                            isPaid ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+                          )}>
+                            {isPaid ? 'Lunas' : 'Belum'}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pinjaman Saya</h1>
@@ -150,7 +227,10 @@ const Loans: React.FC = () => {
                 <span className="text-white/60">Angsuran / Bln</span>
                 <span className="font-bold">{formatCurrency(activeLoan.amount / activeLoan.tenor)}</span>
               </div>
-              <button className="w-full py-3 bg-imigrasi-accent text-imigrasi-primary font-bold rounded-xl hover:bg-white transition-colors text-xs">
+              <button 
+                onClick={() => setShowScheduleModal(true)}
+                className="w-full py-3 bg-imigrasi-accent text-imigrasi-primary font-bold rounded-xl hover:bg-white transition-colors text-xs"
+              >
                 Lihat Jadwal Angsuran
               </button>
             </div>

@@ -20,6 +20,7 @@ import {
 const FinancialManagement: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSHUModal, setShowSHUModal] = useState(false);
+  const [showBackupModal, setShowBackupModal] = useState(false);
   const [shuStep, setShuStep] = useState(1);
 
   const formatCurrency = (amount: number) => {
@@ -42,6 +43,14 @@ const FinancialManagement: React.FC = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
     setShuStep(3);
     setIsLoading(false);
+  };
+
+  const handleBackup = async () => {
+    setIsLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsLoading(false);
+    setShowBackupModal(false);
+    alert('Database berhasil di-backup dan diunduh.');
   };
 
   return (
@@ -180,6 +189,51 @@ const FinancialManagement: React.FC = () => {
         )}
       </AnimatePresence>
 
+      {/* Backup Database Modal */}
+      <AnimatePresence>
+        {showBackupModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowBackupModal(false)}
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-md bg-white dark:bg-neutral-800 rounded-[2.5rem] shadow-2xl overflow-hidden"
+            >
+              <div className="p-6 border-b border-gray-100 dark:border-neutral-700 flex items-center justify-between bg-purple-600 text-white">
+                <h3 className="font-bold text-xl">Backup Database</h3>
+                <button onClick={() => setShowBackupModal(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-8 space-y-6 text-center">
+                <div className="w-20 h-20 bg-purple-50 dark:bg-purple-900/20 rounded-3xl flex items-center justify-center mx-auto">
+                  <Save size={40} className="text-purple-600" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">Amankan Data Anda</h4>
+                  <p className="text-sm text-gray-500 mt-2">Sistem akan membuat salinan lengkap database saat ini dalam format .sql atau .json.</p>
+                </div>
+                <button 
+                  onClick={handleBackup}
+                  disabled={isLoading}
+                  className="w-full py-4 bg-purple-600 text-white font-bold rounded-2xl hover:bg-purple-700 transition-all shadow-lg shadow-purple-600/20 flex items-center justify-center gap-2"
+                >
+                  {isLoading ? <RefreshCw className="animate-spin" size={20} /> : <Download size={20} />}
+                  {isLoading ? 'Memproses...' : 'Mulai Backup & Download'}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Manajemen Keuangan</h1>
@@ -301,14 +355,10 @@ const FinancialManagement: React.FC = () => {
         <div className="space-y-8">
           <div className="glass-card p-6 rounded-3xl space-y-4">
             <h3 className="font-bold text-lg text-gray-900 dark:text-white">Konfigurasi Keuangan</h3>
-            <button className="w-full flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-neutral-700/30 hover:bg-gray-100 transition-all group">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 text-blue-600 rounded-lg group-hover:scale-110 transition-transform"><Settings size={18} /></div>
-                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Atur Suku Bunga</span>
-              </div>
-              <ArrowUpRight size={16} className="text-gray-400" />
-            </button>
-            <button className="w-full flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-neutral-700/30 hover:bg-gray-100 transition-all group">
+            <button 
+              onClick={() => setShowBackupModal(true)}
+              className="w-full flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-neutral-700/30 hover:bg-gray-100 transition-all group"
+            >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-100 text-purple-600 rounded-lg group-hover:scale-110 transition-transform"><Save size={18} /></div>
                 <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Backup Database</span>

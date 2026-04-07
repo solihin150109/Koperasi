@@ -22,6 +22,7 @@ const AdminDocuments: React.FC = () => {
   const { addNotification } = useNotifications();
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [newDocTitle, setNewDocTitle] = useState('');
   const [newDocCategory, setNewDocCategory] = useState('Legal');
 
@@ -47,10 +48,12 @@ const AdminDocuments: React.FC = () => {
     { id: 'DOC005', title: 'Kebijakan SHU 2025', category: 'Kebijakan', date: '15 Mar 2024', size: '890 KB', status: 'Published' },
   ];
 
-  const filteredDocs = documents.filter(d => 
-    d.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    d.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredDocs = documents.filter(d => {
+    const matchesSearch = d.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         d.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'Semua' || d.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <motion.div 
@@ -154,10 +157,18 @@ const AdminDocuments: React.FC = () => {
           />
         </div>
         <div className="flex items-center gap-2 w-full md:w-auto">
-          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-gray-50 dark:bg-neutral-700 rounded-2xl text-sm font-bold text-gray-600 dark:text-gray-300">
-            <Filter size={18} />
-            Filter
-          </button>
+          <select 
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="flex-1 md:flex-none px-4 py-3 bg-gray-50 dark:bg-neutral-700 rounded-2xl text-sm font-bold text-gray-600 dark:text-gray-300 outline-none border-2 border-transparent focus:border-imigrasi-accent transition-all"
+          >
+            <option value="Semua">Semua Kategori</option>
+            <option value="Legal">Legal</option>
+            <option value="Laporan">Laporan</option>
+            <option value="Formulir">Formulir</option>
+            <option value="Kebijakan">Kebijakan</option>
+            <option value="Internal">Internal</option>
+          </select>
         </div>
       </div>
 
