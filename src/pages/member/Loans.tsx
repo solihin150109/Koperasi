@@ -462,40 +462,48 @@ const Loans: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-neutral-700">
-                {DUMMY_LOANS.map((loan) => (
-                  <tr key={loan.id} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                    <td className="px-6 py-4 text-sm font-mono text-gray-600 dark:text-gray-300">{loan.id}</td>
-                    <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(loan.amount)}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{loan.tenor} Bln</td>
-                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{loan.dateApplied}</td>
-                    <td className="px-6 py-4 text-center">
-                      {loan.status === 'Pending' ? (
-                        <button 
-                          onClick={() => {
-                            setShowLoanModal(true);
-                            setLoanStep(2);
-                            setHasDownloaded(true);
-                          }}
-                          className="px-3 py-1.5 bg-amber-500/10 text-amber-600 rounded-lg text-[10px] font-bold hover:bg-amber-500 hover:text-white transition-all flex items-center justify-center gap-1 mx-auto"
-                        >
-                          <ArrowUpRight size={12} />
-                          Upload
-                        </button>
-                      ) : (
-                        <button className="p-1.5 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors mx-auto">
-                          <Eye size={14} />
-                        </button>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        loan.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-700'
-                      }`}>
-                        {loan.status === 'Active' ? 'Berjalan' : 'Lunas'}
-                      </span>
+                {DUMMY_LOANS.length > 0 ? (
+                  DUMMY_LOANS.map((loan) => (
+                    <tr key={loan.id} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
+                      <td className="px-6 py-4 text-sm font-mono text-gray-600 dark:text-gray-300">{loan.id}</td>
+                      <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(loan.amount)}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{loan.tenor} Bln</td>
+                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{loan.dateApplied}</td>
+                      <td className="px-6 py-4 text-center">
+                        {loan.status === 'Pending' ? (
+                          <button 
+                            onClick={() => {
+                              setShowLoanModal(true);
+                              setLoanStep(2);
+                              setHasDownloaded(true);
+                            }}
+                            className="px-3 py-1.5 bg-amber-500/10 text-amber-600 rounded-lg text-[10px] font-bold hover:bg-amber-500 hover:text-white transition-all flex items-center justify-center gap-1 mx-auto"
+                          >
+                            <ArrowUpRight size={12} />
+                            Upload
+                          </button>
+                        ) : (
+                          <button className="p-1.5 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors mx-auto">
+                            <Eye size={14} />
+                          </button>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          loan.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-700'
+                        }`}>
+                          {loan.status === 'Active' ? 'Berjalan' : 'Lunas'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                      Tidak ada riwayat pinjaman.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

@@ -280,28 +280,36 @@ const Savings: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-neutral-700">
-                {DUMMY_TRANSACTIONS.filter(t => t.type === 'Simpanan').map((trx) => (
-                  <tr key={trx.id} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-green-100 text-green-600 rounded-lg">
-                          <ArrowUpRight size={16} />
+                {DUMMY_TRANSACTIONS.filter(t => t.type === 'Simpanan').length > 0 ? (
+                  DUMMY_TRANSACTIONS.filter(t => t.type === 'Simpanan').map((trx) => (
+                    <tr key={trx.id} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-green-100 text-green-600 rounded-lg">
+                            <ArrowUpRight size={16} />
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-gray-900 dark:text-white">{trx.category}</p>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">{trx.id}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-900 dark:text-white">{trx.category}</p>
-                          <p className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">{trx.id}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{trx.date}</td>
-                    <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(trx.amount)}</td>
-                    <td className="px-6 py-4">
-                      <span className="px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wider">
-                        {trx.status}
-                      </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{trx.date}</td>
+                      <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(trx.amount)}</td>
+                      <td className="px-6 py-4">
+                        <span className="px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wider">
+                          {trx.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                      Tidak ada riwayat simpanan.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

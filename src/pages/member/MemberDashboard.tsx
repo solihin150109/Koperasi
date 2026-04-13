@@ -268,38 +268,46 @@ const MemberDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-neutral-700">
-                {DUMMY_TRANSACTIONS.map((trx) => (
-                  <tr key={trx.id} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${
-                          trx.type === 'Simpanan' ? 'bg-green-100 text-green-600' : 
-                          trx.type === 'Pinjaman' ? 'bg-amber-100 text-amber-600' : 'bg-red-100 text-red-600'
+                {DUMMY_TRANSACTIONS.length > 0 ? (
+                  DUMMY_TRANSACTIONS.map((trx) => (
+                    <tr key={trx.id} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`p-2 rounded-lg ${
+                            trx.type === 'Simpanan' ? 'bg-green-100 text-green-600' : 
+                            trx.type === 'Pinjaman' ? 'bg-amber-100 text-amber-600' : 'bg-red-100 text-red-600'
+                          }`}>
+                            {trx.type === 'Simpanan' ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-gray-900 dark:text-white">{trx.type} {trx.category}</p>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">{trx.id}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{trx.date}</td>
+                      <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(trx.amount)}</td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          trx.status === 'Success' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
                         }`}>
-                          {trx.type === 'Simpanan' ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
-                        </div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-900 dark:text-white">{trx.type} {trx.category}</p>
-                          <p className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">{trx.id}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{trx.date}</td>
-                    <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(trx.amount)}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        trx.status === 'Success' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
-                      }`}>
-                        {trx.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="p-2 text-gray-400 hover:text-imigrasi-primary dark:hover:text-imigrasi-accent transition-colors">
-                        <Download size={18} />
-                      </button>
+                          {trx.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button className="p-2 text-gray-400 hover:text-imigrasi-primary dark:hover:text-imigrasi-accent transition-colors">
+                          <Download size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                      Belum ada riwayat transaksi.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

@@ -117,25 +117,33 @@ const SHU: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-neutral-700">
-                  {DUMMY_SHU.map((item) => (
-                    <tr key={item.year} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                      <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{item.year}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-emerald-600">{formatCurrency(item.amount)}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 h-1.5 bg-gray-100 dark:bg-neutral-700 rounded-full overflow-hidden max-w-[100px]">
-                            <div className="bg-blue-500 h-full" style={{ width: `${item.participation}%` }} />
+                  {DUMMY_SHU.length > 0 ? (
+                    DUMMY_SHU.map((item) => (
+                      <tr key={item.year} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
+                        <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{item.year}</td>
+                        <td className="px-6 py-4 text-sm font-bold text-emerald-600">{formatCurrency(item.amount)}</td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 h-1.5 bg-gray-100 dark:bg-neutral-700 rounded-full overflow-hidden max-w-[100px]">
+                              <div className="bg-blue-500 h-full" style={{ width: `${item.participation}%` }} />
+                            </div>
+                            <span className="text-xs text-gray-500">{item.participation}%</span>
                           </div>
-                          <span className="text-xs text-gray-500">{item.participation}%</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wider">
-                          Sudah Cair
-                        </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wider">
+                            Sudah Cair
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                        Belum ada riwayat SHU.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>

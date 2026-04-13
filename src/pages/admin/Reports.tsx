@@ -87,46 +87,7 @@ const ReportsPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-neutral-700">
-              {[
-                { month: 'Maret 2026', type: 'Laporan Keuangan Bulanan', date: '01 Apr 2026' },
-                { month: 'Februari 2026', type: 'Laporan Keuangan Bulanan', date: '01 Mar 2026' },
-                { month: 'Januari 2026', type: 'Laporan Keuangan Bulanan', date: '01 Feb 2026' },
-                { month: 'Desember 2025', type: 'Laporan Keuangan Bulanan', date: '01 Jan 2026' },
-                { month: 'November 2025', type: 'Laporan Keuangan Bulanan', date: '01 Des 2025' },
-              ].map((report, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-imigrasi-primary dark:text-imigrasi-accent rounded-lg">
-                        <FileText size={18} />
-                      </div>
-                      <span className="text-sm font-bold text-gray-900 dark:text-white">{report.month}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{report.type}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{report.date}</td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <button 
-                        onClick={() => {
-                          addNotification({
-                            title: 'Download Dimulai',
-                            message: `Laporan ${report.month} sedang diunduh.`,
-                            type: 'success'
-                          });
-                        }}
-                        className="flex items-center gap-2 px-4 py-2 bg-imigrasi-primary text-white rounded-xl text-xs font-bold hover:bg-blue-900 transition-all shadow-lg shadow-imigrasi-primary/20"
-                      >
-                        <Download size={14} />
-                        Unduh PDF
-                      </button>
-                      <button className="p-2 text-gray-400 hover:text-emerald-500 transition-colors">
-                        <MessageCircle size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {/* Real reports will be mapped here */}
             </tbody>
           </table>
         </div>

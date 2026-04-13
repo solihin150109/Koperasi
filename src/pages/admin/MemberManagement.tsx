@@ -42,13 +42,7 @@ const MemberManagement: React.FC = () => {
     }).format(amount);
   };
 
-  const members = [
-    { id: 'USR001', name: 'Budi Santoso', nip: '198501012010011001', unit: 'Seksi Izin Tinggal', role: 'member', status: 'Aktif', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Budi', savings: 8500000, debt: 4000000 },
-    { id: 'USR002', name: 'Agus Setiawan', nip: '198801012012011002', unit: 'Seksi Lalu Lintas', role: 'member', status: 'Aktif', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Agus', savings: 12000000, debt: 15000000 },
-    { id: 'USR003', name: 'Siti Aminah', nip: '197805122005012002', unit: 'Sekretariat', role: 'admin', status: 'Aktif', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Siti', savings: 25000000, debt: 0 },
-    { id: 'USR004', name: 'Rudi Hartono', nip: '199001012015011004', unit: 'Seksi Intelijen', role: 'member', status: 'Pending', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rudi', savings: 0, debt: 0 },
-    { id: 'USR005', name: 'Linda Permata', nip: '199201012018012005', unit: 'Seksi Izin Tinggal', role: 'member', status: 'Aktif', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Linda', savings: 5000000, debt: 2000000 },
-  ];
+  const members: any[] = [];
 
   const filteredMembers = members.filter(m => 
     m.name.toLowerCase().includes(searchTerm.toLowerCase()) || 

@@ -57,38 +57,26 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const stats = viewType === 'monthly' ? [
-    { label: 'Total Anggota', value: '245', icon: Users, color: 'bg-blue-500', trend: '+12' },
-    { label: 'Total Simpanan', value: 'Rp 1.25M', icon: Wallet, color: 'bg-emerald-500', trend: '+5.2%' },
-    { label: 'Total Pinjaman', value: 'Rp 450jt', icon: HandCoins, color: 'bg-amber-500', trend: '-2.1%' },
-    { label: 'Total SHU 2025', value: 'Rp 250jt', icon: TrendingUp, color: 'bg-purple-500', trend: '+15%' },
-  ] : [
-    { label: 'Total Anggota (YTD)', value: '245', icon: Users, color: 'bg-blue-500', trend: '+45' },
-    { label: 'Total Simpanan (YTD)', value: 'Rp 15.2M', icon: Wallet, color: 'bg-emerald-500', trend: '+12.5%' },
-    { label: 'Total Pinjaman (YTD)', value: 'Rp 5.4M', icon: HandCoins, color: 'bg-amber-500', trend: '+8.1%' },
-    { label: 'Total SHU (YTD)', value: 'Rp 2.1M', icon: TrendingUp, color: 'bg-purple-500', trend: '+22%' },
+  const stats = [
+    { label: 'Total Anggota', value: '0', icon: Users, color: 'bg-blue-500', trend: '0' },
+    { label: 'Total Simpanan', value: 'Rp 0', icon: Wallet, color: 'bg-emerald-500', trend: '0%' },
+    { label: 'Total Pinjaman', value: 'Rp 0', icon: HandCoins, color: 'bg-amber-500', trend: '0%' },
+    { label: 'Total SHU', value: 'Rp 0', icon: TrendingUp, color: 'bg-purple-500', trend: '0%' },
   ];
 
-  const chartData = viewType === 'monthly' ? [
-    { name: 'Jan', simpanan: 4000, pinjaman: 2400 },
-    { name: 'Feb', simpanan: 3000, pinjaman: 1398 },
-    { name: 'Mar', simpanan: 2000, pinjaman: 9800 },
-    { name: 'Apr', simpanan: 2780, pinjaman: 3908 },
-    { name: 'May', simpanan: 1890, pinjaman: 4800 },
-    { name: 'Jun', simpanan: 2390, pinjaman: 3800 },
-  ] : [
-    { name: '2020', simpanan: 40000, pinjaman: 24000 },
-    { name: '2021', simpanan: 30000, pinjaman: 13980 },
-    { name: '2022', simpanan: 20000, pinjaman: 98000 },
-    { name: '2023', simpanan: 27800, pinjaman: 39080 },
-    { name: '2024', simpanan: 18900, pinjaman: 48000 },
-    { name: '2025', simpanan: 23900, pinjaman: 38000 },
+  const chartData = [
+    { name: 'Jan', simpanan: 0, pinjaman: 0 },
+    { name: 'Feb', simpanan: 0, pinjaman: 0 },
+    { name: 'Mar', simpanan: 0, pinjaman: 0 },
+    { name: 'Apr', simpanan: 0, pinjaman: 0 },
+    { name: 'May', simpanan: 0, pinjaman: 0 },
+    { name: 'Jun', simpanan: 0, pinjaman: 0 },
   ];
 
   const pieData = [
-    { name: 'Pokok', value: 400 },
-    { name: 'Wajib', value: 300 },
-    { name: 'Sukarela', value: 300 },
+    { name: 'Pokok', value: 0 },
+    { name: 'Wajib', value: 0 },
+    { name: 'Sukarela', value: 0 },
   ];
 
   const COLORS = ['#002855', '#C5A059', '#1A1A1A'];
@@ -249,25 +237,9 @@ const AdminDashboard: React.FC = () => {
             <button className="text-xs font-bold text-imigrasi-primary dark:text-imigrasi-accent hover:underline">Lihat Semua</button>
           </div>
           <div className="divide-y divide-gray-100 dark:divide-neutral-700">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-imigrasi-primary/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-imigrasi-primary dark:text-white">
-                    {i % 2 === 0 ? <Wallet size={24} /> : <HandCoins size={24} />}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white">
-                      {i % 2 === 0 ? 'Simpanan Wajib Masuk' : 'Pengajuan Pinjaman Baru'}
-                    </h4>
-                    <p className="text-xs text-gray-500">Oleh: Anggota Ke-{i} • 2 jam yang lalu</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(i * 1000000)}</p>
-                  <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Berhasil</span>
-                </div>
-              </div>
-            ))}
+            <div className="p-12 text-center text-gray-500 text-sm">
+              Belum ada aktivitas terbaru.
+            </div>
           </div>
         </div>
 

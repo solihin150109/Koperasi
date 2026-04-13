@@ -326,26 +326,7 @@ const FinancialManagement: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-neutral-700">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <tr key={i} className="hover:bg-gray-50 dark:hover:bg-neutral-700/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${i % 2 === 0 ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
-                          {i % 2 === 0 ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
-                        </div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-900 dark:text-white">{i % 2 === 0 ? 'Simpanan Wajib' : 'Angsuran Pinjaman'}</p>
-                          <p className="text-[10px] text-gray-500 font-mono">TRX-2025-{i}00</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">0{i} April 2026</td>
-                    <td className="px-6 py-4 text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(i * 100000)}</td>
-                    <td className="px-6 py-4">
-                      <span className="px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wider">Berhasil</span>
-                    </td>
-                  </tr>
-                ))}
+                {/* Real data will be mapped here */}
               </tbody>
             </table>
           </div>

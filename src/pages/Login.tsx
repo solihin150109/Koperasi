@@ -19,27 +19,21 @@ const LoginPage: React.FC = () => {
     setError('');
 
     try {
-      // Simulate API call
+      // Simulate API call - Replace with real Auth in next step
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Check for admin or member
-      if (username === 'admin') {
-        login('admin');
-        navigate('/admin');
-      } else if (username === 'member') {
-        login('member');
-        navigate('/member');
-      } else if (username === 'secretary') {
-        login('secretary');
-        navigate('/admin');
-      } else if (username === 'treasurer') {
-        login('treasurer');
-        navigate('/admin');
-      } else if (username === 'chairman') {
-        login('chairman');
-        navigate('/admin');
+      // For now, we keep a basic bypass or just show error until Firebase is connected
+      if (username && password) {
+        // This is a placeholder until real auth is implemented
+        if (username === 'admin') {
+          login('admin');
+          navigate('/admin');
+        } else {
+          login('member');
+          navigate('/member');
+        }
       } else {
-        setError('Username atau password salah. Coba "admin", "member", "secretary", "treasurer", atau "chairman".');
+        setError('Silakan masukkan username dan password.');
       }
     } catch (err) {
       setError('Terjadi kesalahan sistem. Silakan coba lagi.');
@@ -143,14 +137,6 @@ const LoginPage: React.FC = () => {
           <div className="mt-8 pt-8 border-t border-gray-100 dark:border-neutral-800 text-center">
             <p className="text-xs text-gray-500 dark:text-gray-400">Silakan hubungi pengurus koperasi untuk pendaftaran anggota baru.</p>
           </div>
-        </div>
-
-        {/* Info Box */}
-        <div className="mt-8 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30 rounded-2xl flex items-start gap-3">
-          <Info size={18} className="text-amber-600 shrink-0 mt-0.5" />
-          <p className="text-[10px] text-amber-800 dark:text-amber-500/80 leading-relaxed">
-            Gunakan username <span className="font-bold">"admin"</span>, <span className="font-bold">"secretary"</span>, <span className="font-bold">"treasurer"</span>, <span className="font-bold">"chairman"</span> untuk dashboard pengurus atau <span className="font-bold">"member"</span> untuk dashboard anggota.
-          </p>
         </div>
 
         {/* Footer */}
